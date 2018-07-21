@@ -41,3 +41,17 @@ class ProjectHelper:
                 name = element.find_element_by_xpath("//td[1]/a").text
                 self.project_cache.append(Project(name=name))
         return list(self.project_cache)
+
+    def select_project_by_index(self, index):
+        wd = self.app.wd
+        project = wd.find_elements_by_xpath("//table[3]/tbody/tr")[2:][index]
+        project.find_element_by_xpath("./td[1]/a").click()
+
+    def delete_project(self,index):
+        wd = self.app.wd
+        self.open_projects_page()
+        self.select_project_by_index(index)
+        wd.find_element_by_css_selector("input[value='Delete Project']").click()
+        wd.find_element_by_css_selector("input[value='Delete Project']").click()
+        self.project_cache = None
+
