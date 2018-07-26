@@ -16,18 +16,13 @@ class SoapHelper:
             return False
 
     def get_projects_list(self, username, password):
-        project_list = []
         client = Client("http://localhost/mantisbt-1.2.20/api/soap/mantisconnect.php?wsdl")
-
-        try:
-            tup = client.service.mc_projects_get_user_accessible(username, password)
-            for row in tup:
-                (ProjectData) = row
-                project_list.append(Project(id=str(ProjectData['id']),
-                                    name=ProjectData['name'],
-                                    description=ProjectData['description']))
-        finally:
-            return project_list
+        project_list = []
+        for row in client.service.mc_projects_get_user_accessible(username, password):
+            (ProjectData) = row
+            project_list.append(Project(id=str(ProjectData['id']), name=ProjectData['name'],
+                                                description=ProjectData['description']))
+        return project_list
 
 
 
